@@ -12,7 +12,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 
-const closeBtn = document.querySelectorAll(".close"); // Variable pour le bouton clode du modal 
+const closeBtn = document.querySelectorAll(".close"); // Variable du bouton close du modal 
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -23,6 +23,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+// Close modal form
 function closeModal(){
   modalbg.style.display = "none";
 }
