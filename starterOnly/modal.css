@@ -139,6 +139,10 @@ main {
 }
 
 /* Modal form */
+.error-message {
+  color: #fe142f;
+  font-size: 13px;
+}
 
 .button {
   background: #fe142f;
