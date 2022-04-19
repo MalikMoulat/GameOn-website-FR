@@ -32,6 +32,11 @@ function closeModal(){
   modalbgTanks.style.display = "none";
 }
 
+/*// Validation du formulaire
+function validate () {
+  modalbg.style.display = "none";
+  modalbgTanks.style.display = "block";
+}*/
 
 
 
@@ -160,7 +165,7 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     modalbg.style.display = "none";
     modalbgTanks.style.display = "block";
     e.preventDefault();
-    alert('formulaire envoyé !');
+    //alert('formulaire envoyé !');
   }
 
 });
