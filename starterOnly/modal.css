@@ -29,14 +29,18 @@ p {
 img {
   padding-right: 1rem;
   height: 20px;
+  height: 40px;
 }
 
 .topnav {
+  display: flex;
+  justify-content: space-between;
   overflow: hidden;
   margin: 3.5%;
 }
 .header-logo {
     float: left;
+    align-self: center;
 }
 .main-navbar {
     float: right;
@@ -485,6 +489,7 @@ input[data-error]::after {
   height: 100%;
   display: block;
   padding: 0;
+  object-fit: cover;
 }
 .copyrights {
   color: #fe142f;
@@ -537,6 +542,34 @@ footer {
   .copyrights {
     margin-top: 50px;
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 570px){
+  .hero-content{
+    padding: 0;
+  }
+  .hero-headline{
+    font-size: 40px;
+    width: unset;
+  }
+  .hero-text{
+    margin-top: 10px;
+    font-size: 20px;
+    width: unset;
+  }
+  img{
+    height: 20px;
+  }
+}
+@media screen and (max-width: 375px){
+  .hero-headline{
+    font-size: 30px;
+    width: unset;
+  }
+  .hero-text{
+    font-size: 15px;
+    width: unset;
   }
 }
 
