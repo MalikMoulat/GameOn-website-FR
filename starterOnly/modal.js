@@ -9,14 +9,17 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
+const modalbgTanks = document.querySelector(".bgroundthanks"); // Variable modale de remerciement
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 
-const closeBtn = document.querySelectorAll(".close"); // Variable du bouton close du modal 
+const closeBtn = document.querySelectorAll(".close"); // Variable du bouton close du modal
+const closeBtnThanks = document.querySelectorAll(".btn-close"); // Variable du bouton close du modal de remerciement
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
+closeBtnThanks.forEach((btn) => btn.addEventListener("click", closeModal));
 
 // launch modal form
 function launchModal() {
@@ -26,11 +29,14 @@ function launchModal() {
 // Close modal form
 function closeModal(){
   modalbg.style.display = "none";
+  modalbgTanks.style.display = "none";
 }
 
 
 
+
 // Vérification des données du formulaire 
+
 document.getElementById("inscription").addEventListener("submit", function(e) {
 
   // Variable erreur
@@ -44,7 +50,13 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
   let numberOfTournaments = document.getElementById("quantity");
   let tournamentTown = document.querySelector('input[name="location"]:checked');
 
-  
+  //Regex
+  const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+
+
+
+
   
 
   // Vérification firstName 
@@ -54,6 +66,10 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     first.style.border = "2px solid red";
   }else if (firstName.value.length == 1 || firstName.value.length < 2){ // Si value.length == 1 ou < 2
     error = 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.'
+    document.getElementById("errorFirst").innerHTML = error;
+    first.style.border = "2px solid red";
+  }else if (regexName.test(firstName.value) !== true){ //Vérification du format de du prénom
+    error = "Le format du prénom n'est pas valide."
     document.getElementById("errorFirst").innerHTML = error;
     first.style.border = "2px solid red";
   }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
@@ -72,6 +88,10 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     error = 'Veuillez entrer 2 caractères ou plus pour le champ du nom.'
     document.getElementById("errorLast").innerHTML = error;
     last.style.border = "2px solid red";
+  }else if (regexName.test(lastName.value) !== true){ //Vérification du format de du nom
+    error = "Le format du nom n'est pas valide."
+    document.getElementById("errorLast").innerHTML = error;
+    first.style.border = "2px solid red";
   }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
     last.style.border = '';
     document.getElementById("errorLast").innerHTML = '';
@@ -80,6 +100,10 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
   // Vérification valeur de email existe
   if (!email.value){
     error = 'Veuillez renseigner une adresse mail.'
+    document.getElementById("errorMail").innerHTML = error;
+    email.style.border = "2px solid red";
+  }else if (regexEmail.test(email.value) !== true){ //Vérification di format de l'adresse mail
+    error = 'Veuillez renseigner une adresse mail valide.'
     document.getElementById("errorMail").innerHTML = error;
     email.style.border = "2px solid red";
   }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
@@ -133,11 +157,10 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     e.preventDefault();
     return false;
   }else{
+    modalbg.style.display = "none";
+    modalbgTanks.style.display = "block";
+    e.preventDefault();
     alert('formulaire envoyé !');
   }
 
-  
-
 });
-
-
