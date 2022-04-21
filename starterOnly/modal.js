@@ -32,18 +32,40 @@ function closeModal(){
   modalbgTanks.style.display = "none";
 }
 
-/*// Validation du formulaire
-function validate () {
-  modalbg.style.display = "none";
-  modalbgTanks.style.display = "block";
-}*/
+
+// Variable affichage erreur
+const prénom = 'prénom'; // afficher dans le message d'erreur 
+const errorFirst = 'errorFirst'; // ID du <p> (html) pour afficher l'rreur
+const firstRed = 'first'; // ID de l'input 
+
+const nom = 'nom';  // afficher dans le message d'erreur 
+const errorLast = 'errorLast';  // ID du <p> (html) pour afficher l'rreur
+const lastRed = 'last'; // ID de l'input 
+
+const mail = 'mail';  // afficher dans le message d'erreur 
+const errorMail = 'errorMail';  // ID du <p> (html) pour afficher l'rreur
+const emailred = 'email'; // ID de l'input 
+
+const birthDateErrorMessage = 'Vous devez entrer votre date de naissance.'; // message d'erreur
+const errorBirthDateId = 'errorBirthDate';  // ID du <p> (html) pour afficher l'rreur
+const birthDateRed = 'birthdate'; // ID de l'input 
+
+const numberOfTournamentsMessage = 'Veuillez renseigner un nombre entre 0 et 99.'; // message d'erreur
+const numberOfTournamentsId = 'errorQuantity';  // ID du <p> (html) pour afficher l'rreur
+const numberOfTournamentsRed = 'quantity'; // ID de l'input 
+
+
+//Regex
+const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+
+
 
 
 
 // Vérification des données du formulaire 
-
 document.getElementById("inscription").addEventListener("submit", function(e) {
-
+  
   // Variable erreur
   let error;
 
@@ -55,102 +77,61 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
   let numberOfTournaments = document.getElementById("quantity");
   let tournamentTown = document.querySelector('input[name="location"]:checked');
 
-  //Regex
-  const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
-
-
-
-
   
-
-  // Vérification firstName 
-  if (!firstName.value){  // Si la valeur de la variable est vide
-    error = 'Veuillez renseigner un prénom.'
-    document.getElementById("errorFirst").innerHTML = error;
-    first.style.border = "2px solid red";
-  }else if (firstName.value.length == 1 || firstName.value.length < 2){ // Si value.length == 1 ou < 2
-    error = 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.'
-    document.getElementById("errorFirst").innerHTML = error;
-    first.style.border = "2px solid red";
-  }else if (regexName.test(firstName.value) !== true){ //Vérification du format de du prénom
-    error = "Le format du prénom n'est pas valide."
-    document.getElementById("errorFirst").innerHTML = error;
-    first.style.border = "2px solid red";
-  }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-    first.style.border = '';
-    document.getElementById("errorFirst").innerHTML = '';
+  // Fonction 
+  function checkValueFormMore(name, errorId, contentError, borderRed, regex) { //  name = Variable,   errorId = id ou le message d'erreur seras affiché, contentError = Contenue du message d'erreur   , borderRed = Id de l'input pour la modification de la couleur du border,   regex = regex a utiliser pour la vérification de la valeur de la variable
+      if (!name.value){  // Si la valeur de la variable est vide
+          error = 'Veuillez renseigner un '+ contentError +'.'
+          document.getElementById(errorId).innerHTML = error;
+          document.getElementById(borderRed).style.border = "2px solid red";
+      }else if (name.value.length == 1 || name.value.length < 2){ // Si value.length == 1 ou < 2
+          error = 'Veuillez entrer 2 caractères ou plus pour le champ du '+ contentError +'.'
+          document.getElementById(errorId).innerHTML = error;
+          document.getElementById(borderRed).style.border = "2px solid red";
+      }else if (regex.test(name.value) !== true){ //Vérification du format de la variable
+          error = 'Le format du '+ contentError +' n\'est pas valide.'
+          document.getElementById(errorId).innerHTML = error;
+          document.getElementById(borderRed).style.border = "2px solid red";
+      }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
+          document.getElementById(errorId).innerHTML = '';
+          document.getElementById(borderRed).style.border = '';
+      }
   }
-
   
-
-  // Vérification valeur de lastName existe
-  if (!lastName.value){ // Si la valeur de la variable est vide
-    error = 'Veuillez renseigner un nom.'
-    document.getElementById("errorLast").innerHTML = error;
-    last.style.border = "2px solid red";
-  }else if (lastName.value.length == 1 || lastName.value.length < 2){ // Si value.length == 1 ou < 2
-    error = 'Veuillez entrer 2 caractères ou plus pour le champ du nom.'
-    document.getElementById("errorLast").innerHTML = error;
-    last.style.border = "2px solid red";
-  }else if (regexName.test(lastName.value) !== true){ //Vérification du format de du nom
-    error = "Le format du nom n'est pas valide."
-    document.getElementById("errorLast").innerHTML = error;
-    first.style.border = "2px solid red";
-  }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-    last.style.border = '';
-    document.getElementById("errorLast").innerHTML = '';
+  function checkValueForm(name, errorId, contentError, borderRed){  //  name = Variable,   errorId = id ou le message d'erreur seras affiché, contentError = Contenue du message d'erreur   , borderRed = Id de l'input pour la modification de la couleur du border
+      if (!name.value){  // Si la valeur de la variable est vide
+          error = contentError;
+          document.getElementById(errorId).innerHTML = error;
+          document.getElementById(borderRed).style.border = "2px solid red";
+      }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
+          document.getElementById(errorId).innerHTML = '';
+          document.getElementById(borderRed).style.border = '';
+        }
   }
 
-  // Vérification valeur de email existe
-  if (!email.value){
-    error = 'Veuillez renseigner une adresse mail.'
-    document.getElementById("errorMail").innerHTML = error;
-    email.style.border = "2px solid red";
-  }else if (regexEmail.test(email.value) !== true){ //Vérification di format de l'adresse mail
-    error = 'Veuillez renseigner une adresse mail valide.'
-    document.getElementById("errorMail").innerHTML = error;
-    email.style.border = "2px solid red";
-  }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-    email.style.border = '';
-    document.getElementById("errorMail").innerHTML = '';
-  }
 
-// Vérification valeur de birthDate existe
-  if (!birthDate.value){
-    error = 'Vous devez entrer votre date de naissance.'
-    document.getElementById("errorBirthDate").innerHTML = error;
-    birthdate.style.border = "2px solid red";
-  }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-    birthdate.style.border = '';
-    document.getElementById("errorBirthDate").innerHTML = '';
-  }
-
-  // Vérification valeur de numberOfTournaments existe
-  if (!numberOfTournaments.value){
-    error = 'Veuillez renseigner un nombre entre 0 et 99.'
-    document.getElementById("errorQuantity").innerHTML = error;
-    quantity.style.border = "2px solid red"; 
-  }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-    quantity.style.border = '';
-    document.getElementById("errorQuantity").innerHTML = '';
-  }
+  //Vérification des variables
+  checkValueFormMore(firstName, errorFirst, prénom, firstRed, regexName);
+  checkValueFormMore(lastName, errorLast, nom, lastRed, regexName);
+  checkValueFormMore(email, errorMail, mail, emailred, regexEmail);
+  
+  checkValueForm(birthDate, errorBirthDateId, birthDateErrorMessage, birthDateRed);
+  checkValueForm(numberOfTournaments, numberOfTournamentsId, numberOfTournamentsMessage, numberOfTournamentsRed);
+  
 
   // Vérification valeur de tournamentTown existe
-  if (!tournamentTown){
+  if (!tournamentTown){  // Si la variable est vide
     error = 'Vous devez choisir une option.';
-    document.getElementById("errorCheckLocation").innerHTML = error;
-    
+    document.getElementById("errorCheckLocation").innerHTML = error; 
   }else{  // reset le message si il y a eu une première entrée avec une erreur
     document.getElementById("errorCheckLocation").innerHTML = '';
   }
 
   // Vérification id = checkbox1 DOM coché
-  if (document.getElementById("checkbox1").checked !== true)
-	{
+  if (document.getElementById("checkbox1").checked !== true){ //Si la checkbox n'est pas coché
     error = "Vous devez vérifier que vous acceptez les termes et conditions."
     document.getElementById("errorCheckbox1").innerHTML = error;
-	}else{  // reset le message si il y a eu une première entrée avec une erreur
+    }else{  // reset le message si il y a eu une première entrée avec une erreur
     document.getElementById("errorCheckbox1").innerHTML = '';
   }
 
@@ -165,7 +146,6 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     modalbg.style.display = "none";
     modalbgTanks.style.display = "block";
     e.preventDefault();
-    //alert('formulaire envoyé !');
   }
 
 });
