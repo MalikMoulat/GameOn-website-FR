@@ -34,7 +34,7 @@ function closeModal(){
 
 
 // Variable affichage erreur
-const prénom = 'prénom'; // afficher dans le message d'erreur 
+const prenom = 'prénom'; // afficher dans le message d'erreur 
 const errorFirst = 'errorFirst'; // ID du <p> (html) pour afficher l'rreur
 const firstRed = 'first'; // ID de l'input 
 
@@ -59,8 +59,49 @@ const numberOfTournamentsRed = 'quantity'; // ID de l'input
 const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const regexName = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
 
-
-
+// Fonction 
+/*
+  name = Variable à vérifier
+  errorId = id ou le message d'erreur seras affiché
+  contentError = Contenue du message d'erreur
+  borderRed = Id de l'input pour la modification de la couleur du border
+  regex = regex a utiliser pour la vérification de la valeur de la variable
+*/
+  function checkValueFormMore(name, errorId, contentError, borderRed, regex) {
+    if (!name.value){  // Si la valeur de la variable est vide
+        error = 'Veuillez renseigner un '+ contentError +'.'
+        document.getElementById(errorId).innerHTML = error;
+        document.getElementById(borderRed).style.border = "2px solid red";
+    }else if (name.value.length == 1 || name.value.length < 2){ // Si value.length == 1 ou < 2
+        error = 'Veuillez entrer 2 caractères ou plus pour le champ du '+ contentError +'.'
+        document.getElementById(errorId).innerHTML = error;
+        document.getElementById(borderRed).style.border = "2px solid red";
+    }else if (regex.test(name.value) !== true){ //Vérification du format de la variable
+        error = 'Le format du '+ contentError +' n\'est pas valide.'
+        document.getElementById(errorId).innerHTML = error;
+        document.getElementById(borderRed).style.border = "2px solid red";
+    }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
+        document.getElementById(errorId).innerHTML = '';
+        document.getElementById(borderRed).style.border = '';
+    }
+  }
+  
+  /*
+    name = Variable à vérifier
+    errorId = id ou le message d'erreur seras affiché
+    contentError = Contenue du message d'erreur
+    borderRed = Id de l'input pour la modification de la couleur du border
+  */
+  function checkValueForm(name, errorId, contentError, borderRed){  
+      if (!name.value){  // Si la valeur de la variable est vide
+          error = contentError;
+          document.getElementById(errorId).innerHTML = error;
+          document.getElementById(borderRed).style.border = "2px solid red";
+      }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
+          document.getElementById(errorId).innerHTML = '';
+          document.getElementById(borderRed).style.border = '';
+        }
+  }
 
 
 // Vérification des données du formulaire 
@@ -78,40 +119,9 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
   let tournamentTown = document.querySelector('input[name="location"]:checked');
 
   
-  // Fonction 
-  function checkValueFormMore(name, errorId, contentError, borderRed, regex) { //  name = Variable,   errorId = id ou le message d'erreur seras affiché, contentError = Contenue du message d'erreur   , borderRed = Id de l'input pour la modification de la couleur du border,   regex = regex a utiliser pour la vérification de la valeur de la variable
-      if (!name.value){  // Si la valeur de la variable est vide
-          error = 'Veuillez renseigner un '+ contentError +'.'
-          document.getElementById(errorId).innerHTML = error;
-          document.getElementById(borderRed).style.border = "2px solid red";
-      }else if (name.value.length == 1 || name.value.length < 2){ // Si value.length == 1 ou < 2
-          error = 'Veuillez entrer 2 caractères ou plus pour le champ du '+ contentError +'.'
-          document.getElementById(errorId).innerHTML = error;
-          document.getElementById(borderRed).style.border = "2px solid red";
-      }else if (regex.test(name.value) !== true){ //Vérification du format de la variable
-          error = 'Le format du '+ contentError +' n\'est pas valide.'
-          document.getElementById(errorId).innerHTML = error;
-          document.getElementById(borderRed).style.border = "2px solid red";
-      }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-          document.getElementById(errorId).innerHTML = '';
-          document.getElementById(borderRed).style.border = '';
-      }
-  }
-  
-  function checkValueForm(name, errorId, contentError, borderRed){  //  name = Variable,   errorId = id ou le message d'erreur seras affiché, contentError = Contenue du message d'erreur   , borderRed = Id de l'input pour la modification de la couleur du border
-      if (!name.value){  // Si la valeur de la variable est vide
-          error = contentError;
-          document.getElementById(errorId).innerHTML = error;
-          document.getElementById(borderRed).style.border = "2px solid red";
-      }else{  // reset le style border et le message si il y a eu une première entrée avec une erreur
-          document.getElementById(errorId).innerHTML = '';
-          document.getElementById(borderRed).style.border = '';
-        }
-  }
-
 
   //Vérification des variables
-  checkValueFormMore(firstName, errorFirst, prénom, firstRed, regexName);
+  checkValueFormMore(firstName, errorFirst, prenom, firstRed, regexName);
   checkValueFormMore(lastName, errorLast, nom, lastRed, regexName);
   checkValueFormMore(email, errorMail, mail, emailred, regexEmail);
   
@@ -134,9 +144,6 @@ document.getElementById("inscription").addEventListener("submit", function(e) {
     }else{  // reset le message si il y a eu une première entrée avec une erreur
     document.getElementById("errorCheckbox1").innerHTML = '';
   }
-
- 
-
 
   // Si la variable error est appelée le formulaire ne s'envoie pas sinon OK
   if (error){
